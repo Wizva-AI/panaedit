@@ -224,6 +224,34 @@ const FloorPlanEditor = () => {
     })
   }
 
+  const handleExportAsJson = () => {
+    if (!floorPlan) return
+
+    const exportData = {
+      floorPlanImage: floorPlan.imagePath,
+      markers: floorPlan.markers.map(marker => ({
+        id: marker.id,
+        x: marker.x,
+        y: marker.y,
+        label: marker.label,
+        panoramaFile: scenes[marker.sceneKey]?.panorama || null
+      }))
+    }
+
+    const jsonString = JSON.stringify(exportData, null, 2)
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'floor-plan.json'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+
+    URL.revokeObjectURL(url)
+  }
+
   // Draw markers on canvas whenever they change or active scene changes
   useEffect(() => {
     if (!canvasRef.current || !markers.length) return
@@ -514,6 +542,13 @@ const FloorPlanEditor = () => {
                   onClick={() => dispatch(setFloorPlanImage({ path: '' }))}
                 >
                   Change Floor Plan
+                </button>
+
+                <button 
+                  className="bg-blue-700"
+                  onClick={handleExportAsJson}
+                >
+                  Export as JSON
                 </button>
               </div>
             )}

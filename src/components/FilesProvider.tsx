@@ -32,8 +32,12 @@ const FilesProvider = ({ children, directories = _directories }) => {
 	}, [scenes])
 
 	const handleSelectDirectory = async () => {
-		const map = await openWorkFiles(directories)
-		dispatch(replaceCache({ map }))
+		try {
+			const map = await openWorkFiles(directories)
+			dispatch(replaceCache({ map }))
+		} catch (e) {
+			alert(e.message)
+		}
 	}
 
 	// populate the cache from hosted public directory

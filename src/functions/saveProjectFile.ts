@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash';
+
 const fileOptions = {
 	types: [
 		{
@@ -9,7 +11,7 @@ const fileOptions = {
 
 // Helper function to clean up hotspots before saving
 const prepareHotspotsForSave = (scenes: { [key: string]: Scene }) => {
-	const processedScenes = { ...scenes };
+	const processedScenes = cloneDeep(scenes);
 	
 	// Process each scene's hotspots
 	for (const sceneKey in processedScenes) {
