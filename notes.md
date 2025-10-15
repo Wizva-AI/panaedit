@@ -40,3 +40,5 @@ scene selection
 TODO: 
 - maybe store the writer and not close the file at save, for save function
 - maybe have the project check if the store changed, and make a save reminder, auto save etc.
+
+#Trigger release
